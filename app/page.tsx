@@ -2,25 +2,19 @@
 
 import { useMemo, useState } from "react";
 
-type ResultItem = {
-  keyword: string;
-  count: number;
-  status: "Found" | "Missing";
-};
-
 export default function Page() {
   const [text, setText] = useState("");
   const [keywordsInput, setKeywordsInput] = useState("");
-  const [results, setResults] = useState<ResultItem[]>([]);
+  const [results, setResults] = useState([]);
   const [checked, setChecked] = useState(false);
   const [missingOnly, setMissingOnly] = useState(false);
   const [wholeWordSingleKeywords, setWholeWordSingleKeywords] = useState(true);
 
-  function escapeRegExp(str: string) {
+  function escapeRegExp(str) {
     return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   }
 
-  function parseKeywords(input: string) {
+  function parseKeywords(input) {
     return Array.from(
       new Set(
         input
@@ -31,13 +25,12 @@ export default function Page() {
     );
   }
 
-  function countOccurrences(sourceText: string, keyword: string) {
+  function countOccurrences(sourceText, keyword) {
     if (!sourceText || !keyword) return 0;
 
     const normalizedText = sourceText.replace(/\s+/g, " ");
     const isSingleWord = !keyword.includes(" ");
     const escapedKeyword = escapeRegExp(keyword);
-
     const pattern =
       wholeWordSingleKeywords && isSingleWord
         ? `\\b${escapedKeyword}\\b`
@@ -52,7 +45,7 @@ export default function Page() {
     const normalizedText = text.trim();
     const keywords = parseKeywords(keywordsInput);
 
-    const computedResults: ResultItem[] = keywords.map((keyword) => {
+    const computedResults = keywords.map((keyword) => {
       const count = countOccurrences(normalizedText, keyword);
       return {
         keyword,
@@ -80,7 +73,7 @@ export default function Page() {
     return { total, found, missing };
   }, [results]);
 
-  const sortedResults = useMemo(() => {
+  const missingFirstResults = useMemo(() => {
     return [...results].sort((a, b) => {
       if (a.count === 0 && b.count > 0) return -1;
       if (a.count > 0 && b.count === 0) return 1;
@@ -90,9 +83,9 @@ export default function Page() {
 
   const visibleResults = useMemo(() => {
     return missingOnly
-      ? sortedResults.filter((item) => item.count === 0)
-      : sortedResults;
-  }, [sortedResults, missingOnly]);
+      ? missingFirstResults.filter((item) => item.count === 0)
+      : missingFirstResults;
+  }, [missingFirstResults, missingOnly]);
 
   return (
     <div className="min-h-screen bg-slate-50 p-6 md:p-10">
@@ -149,7 +142,7 @@ export default function Page() {
             Clear all
           </button>
 
-          <label className="flex items-center gap-2 text-sm text-slate-700">
+          <label className="flex items-center gap-2 text-sm text-slate-600">
             <input
               type="checkbox"
               checked={missingOnly}
@@ -159,7 +152,7 @@ export default function Page() {
             Missing only
           </label>
 
-          <label className="flex items-center gap-2 text-sm text-slate-700">
+          <label className="flex items-center gap-2 text-sm text-slate-600">
             <input
               type="checkbox"
               checked={wholeWordSingleKeywords}
