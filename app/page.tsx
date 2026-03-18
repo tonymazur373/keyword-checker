@@ -2,19 +2,25 @@
 
 import { useMemo, useState } from "react";
 
+type ResultItem = {
+  keyword: string;
+  count: number;
+  status: "Found" | "Missing";
+};
+
 export default function Page() {
   const [text, setText] = useState("");
   const [keywordsInput, setKeywordsInput] = useState("");
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState<ResultItem[]>([]);
   const [checked, setChecked] = useState(false);
   const [missingOnly, setMissingOnly] = useState(false);
   const [wholeWordSingleKeywords, setWholeWordSingleKeywords] = useState(true);
 
-  function escapeRegExp(str) {
+  function escapeRegExp(str: string): string {
     return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   }
 
-  function parseKeywords(input) {
+  function parseKeywords(input: string): string[] {
     return Array.from(
       new Set(
         input
@@ -25,7 +31,7 @@ export default function Page() {
     );
   }
 
-  function countOccurrences(sourceText, keyword) {
+  function countOccurrences(sourceText: string, keyword: string): number {
     if (!sourceText || !keyword) return 0;
 
     const normalizedText = sourceText.replace(/\s+/g, " ");
@@ -41,11 +47,11 @@ export default function Page() {
     return matches ? matches.length : 0;
   }
 
-  function handleCheck() {
+  function handleCheck(): void {
     const normalizedText = text.trim();
     const keywords = parseKeywords(keywordsInput);
 
-    const computedResults = keywords.map((keyword) => {
+    const computedResults: ResultItem[] = keywords.map((keyword) => {
       const count = countOccurrences(normalizedText, keyword);
       return {
         keyword,
@@ -58,7 +64,7 @@ export default function Page() {
     setChecked(true);
   }
 
-  function handleClear() {
+  function handleClear(): void {
     setText("");
     setKeywordsInput("");
     setResults([]);
