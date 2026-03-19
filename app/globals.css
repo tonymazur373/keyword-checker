@@ -52,7 +52,7 @@ input {
 }
 
 .hero p {
-  max-width: 760px;
+  max-width: none;
   margin-top: 12px;
   color: var(--muted);
   line-height: 1.6;
