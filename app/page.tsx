@@ -81,7 +81,7 @@ export default function Home() {
     <main className="page-shell">
       <div className="container">
         <header className="hero">
-          <h1>Bulk Text Search</h1>
+          <h1>Bulk Keyword Search</h1>
           <p>
             Paste your text and keyword list to count exact phrase occurrences.
             Matching is case-insensitive, trims extra spaces, and supports
