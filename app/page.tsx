@@ -58,6 +58,13 @@ export default function Home() {
     setChecked(true);
   }
 
+  function handleClear() {
+    setText("");
+    setKeywordsInput("");
+    setResults([]);
+    setChecked(false);
+  }
+
   const summary = useMemo(() => {
     const total = results.length;
     const found = results.filter((item) => item.count > 0).length;
@@ -67,8 +74,8 @@ export default function Home() {
   }, [results]);
 
   const sortedResults = useMemo(() => {
-  return results;
-}, [results]);
+    return results;
+  }, [results]);
 
   return (
     <main className="page-shell">
@@ -107,6 +114,9 @@ export default function Home() {
         <div className="actions">
           <button type="button" onClick={handleCheck}>
             Check keywords
+          </button>
+          <button type="button" onClick={handleClear}>
+            Clear all
           </button>
           <span>Exact phrase matching only</span>
         </div>
