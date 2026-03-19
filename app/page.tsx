@@ -9,12 +9,13 @@ type ResultItem = {
 };
 
 export default function Page() {
-  const [text, setText] = useState("");
-  const [keywordsInput, setKeywordsInput] = useState("");
+  const [text, setText] = useState<string>("");
+  const [keywordsInput, setKeywordsInput] = useState<string>("");
   const [results, setResults] = useState<ResultItem[]>([]);
-  const [checked, setChecked] = useState(false);
-  const [missingOnly, setMissingOnly] = useState(false);
-  const [wholeWordSingleKeywords, setWholeWordSingleKeywords] = useState(true);
+  const [checked, setChecked] = useState<boolean>(false);
+  const [missingOnly, setMissingOnly] = useState<boolean>(false);
+  const [wholeWordSingleKeywords, setWholeWordSingleKeywords] =
+    useState<boolean>(true);
 
   function escapeRegExp(str: string): string {
     return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
