@@ -67,12 +67,12 @@ export default function Home() {
   }, [results]);
 
   const sortedResults = useMemo(() => {
-    return [...results].sort((a, b) => {
-      if (a.count === 0 && b.count > 0) return -1;
-      if (a.count > 0 && b.count === 0) return 1;
-      return a.keyword.localeCompare(b.keyword);
-    });
-  }, [results]);
+  return [...results].sort((a, b) => {
+    if (a.count === 0 && b.count > 0) return -1;
+    if (a.count > 0 && b.count === 0) return 1;
+    return 0;
+  });
+}, [results]);
 
   return (
     <main className="page-shell">
