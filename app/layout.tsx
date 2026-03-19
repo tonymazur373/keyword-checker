@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "SEO Keyword Checker",
+  title: "Bulk Keyword Finder",
   description: "Check exact keyword and phrase occurrences in text.",
 };
 
